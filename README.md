@@ -1,1 +1,1 @@
-# android-courses
+# android courses project
