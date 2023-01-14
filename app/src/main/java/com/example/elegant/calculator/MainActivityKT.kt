@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 
 class MainActivityKT() : AppCompatActivity() {
 
-    private var input: TextView? = null
-    private var output: TextView? = null
+    lateinit var input: TextView
+    lateinit var output: TextView
     private var val1 = Double.NaN
     private var val2 = 0.0
 
@@ -49,8 +49,8 @@ class MainActivityKT() : AppCompatActivity() {
         val dotButton = findViewById<Button>(R.id.button_dot)
         dotButton.setOnClickListener {
             exceedLength()
-            val textValue = input!!.text.toString() + getString(R.string.DOT)
-            input!!.text = textValue
+            val textValue = input.text.toString() + getString(R.string.DOT)
+            input.text = textValue
         }
     }
 
@@ -58,18 +58,18 @@ class MainActivityKT() : AppCompatActivity() {
         val modulButton = findViewById<Button>(R.id.button_modul)
 
         modulButton.setOnClickListener {
-            if (input!!.text.length > 0) {
+            if (input.text.length > 0) {
                 operation(fun(x: Double, y: Double): Double = x % y)
                 if (!ifReallyDecimal()) {
                     val outputString = val1.toString() + getString(R.string.PERCENT)
-                    output!!.text = outputString
+                    output.text = outputString
                 } else {
                     val outputString = val1.toInt().toString() + getString(R.string.PERCENT)
-                    output!!.text = outputString
+                    output.text = outputString
                 }
-                input!!.setText(null)
+                input.setText(null)
             } else {
-                output!!.text = getString(R.string.ERROR)
+                output.text = getString(R.string.ERROR)
             }
         }
     }
@@ -77,18 +77,18 @@ class MainActivityKT() : AppCompatActivity() {
     private fun initAddButton() {
         val addButton = findViewById<Button>(R.id.button_add)
         addButton.setOnClickListener {
-            if (input!!.text.length > 0) {
+            if (input.text.isNotEmpty()) {
                 operation(fun(x: Double, y: Double): Double = x + y)
                 if (!ifReallyDecimal()) {
                     val outputText = val1.toString() + R.string.PLUS
-                    output!!.text = outputText
+                    output.text = outputText
                 } else {
                     val outputText = val1.toInt().toString() + getString(R.string.PLUS)
-                    output!!.text = outputText
+                    output.text = outputText
                 }
-                input!!.setText(null)
+                input.text = null
             } else {
-                output!!.text = getString(R.string.ERROR)
+                output.text = getString(R.string.ERROR)
             }
         }
     }
@@ -96,13 +96,13 @@ class MainActivityKT() : AppCompatActivity() {
     private fun initExtraButton() {
         val equalButton = findViewById<Button>(R.id.button_equal)
         equalButton.setOnClickListener {
-            if (!output!!.text.toString().isEmpty() || !input!!.text.toString().isEmpty()) {
-                val1 = input!!.text.toString().toDouble()
-                val outputText = R.string.MINUS.toChar() + input!!.text.toString()
-                output!!.text = outputText
-                input!!.text = ""
+            if (!output.text.toString().isEmpty() || !input.text.toString().isEmpty()) {
+                val1 = input.text.toString().toDouble()
+                val outputText = R.string.MINUS.toChar() + input.text.toString()
+                output.text = outputText
+                input.text = ""
             } else {
-                output!!.text = getString(R.string.ERROR)
+                output.text = getString(R.string.ERROR)
             }
         }
     }
@@ -110,18 +110,18 @@ class MainActivityKT() : AppCompatActivity() {
     private fun initMultiplicationButton() {
         val multiButton = findViewById<Button>(R.id.button_multi)
         multiButton.setOnClickListener {
-            if (input!!.text.length > 0) {
+            if (input.text.isNotEmpty()) {
                 operation(fun(x: Double, y: Double): Double = x * y)
                 if (!ifReallyDecimal()) {
                     val outputText = val1.toString() + R.string.MULTIPLY
-                    output!!.text = outputText
+                    output.text = outputText
                 } else {
                     val outputText = val1.toInt().toString() + getString(R.string.MULTIPLY)
-                    output!!.text = outputText
+                    output.text = outputText
                 }
-                input!!.setText(null)
+                input.text = null
             } else {
-                output!!.text = getString(R.string.ERROR)
+                output.text = getString(R.string.ERROR)
             }
         }
     }
@@ -129,18 +129,18 @@ class MainActivityKT() : AppCompatActivity() {
     private fun initSubstractionButton() {
         val subButton = findViewById<Button>(R.id.button_sub)
         subButton.setOnClickListener {
-            if (input!!.text.length > 0) {
+            if (input.text.isNotEmpty()) {
                 operation(fun(x: Double, y: Double): Double = x - y)
-                if (input!!.text.length > 0) if (!ifReallyDecimal()) {
+                if (input.text.length > 0) if (!ifReallyDecimal()) {
                     val outputString = val1.toString() + getString(R.string.MINUS)
-                    output!!.text = outputString
+                    output.text = outputString
                 } else {
                     val outputString = val1.toInt().toString() + getString(R.string.MINUS)
-                    output!!.text = outputString
+                    output.text = outputString
                 }
-                input!!.setText(null)
+                input.text = null
             } else {
-                output!!.text = getString(R.string.ERROR)
+                output.text = getString(R.string.ERROR)
             }
         }
     }
@@ -148,18 +148,18 @@ class MainActivityKT() : AppCompatActivity() {
     private fun initDivideButton() {
         val divideButton = findViewById<Button>(R.id.button_divide)
         divideButton.setOnClickListener {
-            if (input!!.text.length > 0) {
+            if (input.text.isNotEmpty()) {
                 operation(fun(x: Double, y: Double): Double = x / y)
                 if (ifReallyDecimal()) {
                     val outputText = val1.toInt().toString() + getString(R.string.DIVISION)
-                    output!!.text = outputText
+                    output.text = outputText
                 } else {
                     val outputText = val1.toString() + getString(R.string.DIVISION)
-                    output!!.text = outputText
+                    output.text = outputText
                 }
-                input!!.setText(null)
+                input.text = null
             } else {
-                output!!.text = getString(R.string.ERROR)
+                output.text = getString(R.string.ERROR)
             }
         }
     }
@@ -167,16 +167,16 @@ class MainActivityKT() : AppCompatActivity() {
     private fun initEqualButton() {
         val equalButton = findViewById<Button>(R.id.button_equal)
         equalButton!!.setOnClickListener {
-            if (input!!.text.length > 0) {
+            if (input.text.isNotEmpty()) {
                 operation(fun(x:Double,y:Double) :Double = x)
                 if (!ifReallyDecimal()) {
-                    output!!.text = val1.toString()
+                    output.text = val1.toString()
                 } else {
-                    output!!.text = val1.toInt().toString()
+                    output.text = val1.toInt().toString()
                 }
-                input!!.setText(null)
+                input.text = null
             } else {
-                output!!.text = getString(R.string.ERROR)
+                output.text = getString(R.string.ERROR)
             }
         }
     }
@@ -184,14 +184,14 @@ class MainActivityKT() : AppCompatActivity() {
     private fun initClearButton() {
         val clearButton = findViewById<Button>(R.id.button_clear)
         clearButton!!.setOnClickListener {
-            if (input!!.text.length > 0) {
+            if (input.text.isNotEmpty()) {
                 val name: CharSequence = input!!.text.toString()
-                input!!.text = name.subSequence(0, name.length - 1)
+                input.text = name.subSequence(0, name.length - 1)
             } else {
                 val1 = Double.NaN
                 val2 = Double.NaN
-                input!!.text = ""
-                output!!.text = ""
+                input.text = ""
+                output.text = ""
             }
         }
 
@@ -199,23 +199,23 @@ class MainActivityKT() : AppCompatActivity() {
         clearButton.setOnLongClickListener {
             val1 = Double.NaN
             val2 = Double.NaN
-            input!!.text = ""
-            output!!.text = ""
+            input.text = ""
+            output.text = ""
             true
         }
     }
 
     // Remove error message that is already written there.
     private fun ifErrorOnOutput() {
-        if (output!!.text.toString() == "Error") {
-            output!!.text = ""
+        if (output.text.toString() == "Error") {
+            output.text = ""
         }
     }
 
     // Make text small if too many digits.
     private fun exceedLength() {
-        if (input!!.text.toString().length > 10) {
-            input!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+        if (input.text.toString().length > 10) {
+            input.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
         }
     }
 
@@ -224,20 +224,20 @@ class MainActivityKT() : AppCompatActivity() {
         button.setOnClickListener {
             ifErrorOnOutput()
             exceedLength()
-            val textValue = input!!.text.toString() + value
-            input!!.text = textValue
+            val textValue = input.text.toString() + value
+            input.text = textValue
         }
     }
 
     private fun operation(action: (Double, Double) -> Double) {
         if (!java.lang.Double.isNaN(val1)) {
-            if (output!!.text.toString()[0] == R.string.MINUS.toChar()) {
+            if (output.text.toString()[0] == R.string.MINUS.toChar()) {
                 val1 *= -1
             }
-            val2 = input!!.text.toString().toDouble()
+            val2 = input.text.toString().toDouble()
             val1 = action.invoke(val1, val2)
         } else {
-            val1 = input!!.text.toString().toDouble()
+            val1 = input.text.toString().toDouble()
         }
     }
 
